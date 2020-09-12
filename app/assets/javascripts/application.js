@@ -14,3 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+function changeColor(id){
+    
+    document.getElementsByClassName('hilite').bgcolor = 'orange';
+}
