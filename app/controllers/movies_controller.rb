@@ -17,10 +17,13 @@ class MoviesController < ApplicationController
   def index
     @movies = Movie.all
     sort_column = params[:sort_column]
-     if(!sort_column)
+     if(!sort_column and session[:sort_column])
       sort_column = session[:sort_column]
+     else  
+      sort_column ||='release_date'
     end
     
+    session[:sort_column] = sort_column
     @movies = Movie.order(sort_column)
     @all_ratings = get_unique_ratings
     @selected_rating = params[:ratings]
