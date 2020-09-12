@@ -24,22 +24,35 @@ class MoviesController < ApplicationController
     end
     
     session[:sort_column] = sort_column
-    @movies = Movie.order(sort_column)
+    sort_direction = params[:sort_direction]
+    
+    #Below is via session else default sort direction implementation
+    if(!sort_direction and session[:sort_direction])
+      sort_direction = session[:sort_direction]
+    else
+      sort_direction ||= "desc"
+    end
+    session[:sort_direction] = sort_direction
+    
+    #@movies = Movie.order(sort_column)
     @all_ratings = get_unique_ratings
     @selected_rating = params[:ratings]
     
-    if(!@selected_rating)
+    if(!@selected_rating and session[:ratings] )
       @selected_rating=session[:ratings]
+      @selected_rating_keys = session[:ratings].keys
+    else
+      @selected_rating_keys||=@all_ratings
     end
     
 
     if(@selected_rating)
       @selected_rating_keys = @selected_rating.keys
-    else
-      @selected_rating_keys = @all_ratings
     end
 
-    @movies = Movie.where(rating: @selected_rating_keys).order(sort_column)
+    session[:ratings] = @selected_rating
+
+    @movies = Movie.where(rating: @selected_rating_keys).order(sort_column+" "+ sort_direction)
 
   end
 
