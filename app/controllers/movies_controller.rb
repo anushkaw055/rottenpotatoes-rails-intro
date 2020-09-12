@@ -17,9 +17,18 @@ class MoviesController < ApplicationController
   def index
     @movies = Movie.all
     sort_column = params[:sort_column]
+     if(!sort_column)
+      sort_column = session[:sort_column]
+    end
+    
     @movies = Movie.order(sort_column)
     @all_ratings = get_unique_ratings
     @selected_rating = params[:ratings]
+    
+    if(!@selected_rating)
+      @selected_rating=session[:ratings]
+    end
+    
 
     if(@selected_rating)
       @selected_rating_keys = @selected_rating.keys
