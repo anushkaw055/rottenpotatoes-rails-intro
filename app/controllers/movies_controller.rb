@@ -4,8 +4,8 @@ class MoviesController < ApplicationController
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
   
-  def change_params(id)
-    params.order(:title)
+  def get_unique_ratings
+    return Movie.uniq.pluck(:rating)
   end
   
   def show
@@ -18,6 +18,17 @@ class MoviesController < ApplicationController
     @movies = Movie.all
     sort_column = params[:sort_column]
     @movies = Movie.order(sort_column)
+    @all_ratings = get_unique_ratings
+    @selected_rating = params[:ratings]
+
+    if(@selected_rating)
+      @selected_rating_keys = @selected_rating.keys
+    else
+      @selected_rating_keys = @all_ratings
+    end
+
+    @movies = Movie.where(rating: @selected_rating_keys).order(sort_column)
+
   end
 
   def new
