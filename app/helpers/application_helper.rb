@@ -34,6 +34,5 @@ def sort_helper(sort_column)
         end
         
         link_to link_display, :sort_column => sort_column, :sort_direction => sort_direction, :ratings => @ratings_selected
-    end
-    
 end
+    
