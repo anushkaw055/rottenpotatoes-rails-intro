@@ -10,9 +10,9 @@
 %table#movies.table.table-striped.col-md-12
   %thead
     %tr
-      %th{:id => 'title_header',:class => highlight_helper("title")}=link_to "Movie Title", :sort_column => 'title',:ratings => @selected_rating
+      %th{:id => 'title_header',:class => highlight_helper("title")}=sort_helper("title")
       %th Rating
-      %th{:id => 'release_date_header',:class => highlight_helper("release_date")}=link_to "Release Date", :sort_column=>'release_date', :ratings => @selected_rating
+      %th{:id => 'release_date_header',:class => highlight_helper("release_date")}=sort_helper("release_date")
       %th More Info
   %tbody
     - @movies.each do |movie|
